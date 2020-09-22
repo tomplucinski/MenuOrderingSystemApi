@@ -1,35 +1,35 @@
 package com.menuorderingsystem.web;
 
-import com.menuorderingsystem.core.Breakfast;
-import com.menuorderingsystem.core.BreakfastRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
 public class GreetingController {
-    private BreakfastRepository breakfastRepository;
 
-    @Autowired
-    public GreetingController(BreakfastRepository breakfastRepository) {
-        this.breakfastRepository = breakfastRepository;
+    @PostMapping("/{meal}")
+    public ResponseEntity breakfastOrder(@PathVariable String meal, @RequestBody List<String> order) throws Exception {
+
+        switch (meal.toUpperCase()) {
+            case "BREAKFAST":
+                System.out.println("breakfast");
+                break;
+
+            case "LUNCH":
+                System.out.println("lunch");
+                break;
+
+            case "DINNER":
+                System.out.println("dinner");
+                break;
+
+            default:
+                throw new Exception();
+        }
+
+        return ResponseEntity.ok("Thanks for your order!");
     }
 
-    @GetMapping("/ping")
-    public ResponseEntity pong() {
-        return ResponseEntity.ok("Pong");
-    }
-
-    @GetMapping("/me")
-    public ResponseEntity me() {
-        return ResponseEntity.ok("It is me!");
-    }
-
-    @PostMapping("/breakfast")
-    public ResponseEntity addBreakfast(@RequestBody Breakfast breakfast) {
-        breakfastRepository.save(breakfast);
-        System.out.println(breakfast);
-        return ResponseEntity.ok("Saved breakfast");
-    }
 }
